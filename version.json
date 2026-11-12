@@ -1,0 +1,13 @@
+{
+ "version": "1.0.0",
+ "build": 1794511011,
+ "hash": "bf4865e0a82b",
+ "files": [
+  "index.html",
+  "manifest.webmanifest",
+  "icons/icon-192.png",
+  "icons/icon-512.png",
+  "icons/maskable-512.png",
+  "icons/apple-touch-icon.png"
+ ]
+}

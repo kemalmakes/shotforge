@@ -1,0 +1,41 @@
+{
+ "name": "ShotForge \u2013 AI Video Storyboard Studio",
+ "short_name": "ShotForge",
+ "id": "./",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "display_override": [
+  "window-controls-overlay",
+  "standalone"
+ ],
+ "orientation": "any",
+ "background_color": "#0b0b0d",
+ "theme_color": "#0b0b0d",
+ "description": "Turn a script into a shot-by-shot AI video storyboard with ready prompts.",
+ "categories": [
+  "productivity",
+  "photo",
+  "video"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
