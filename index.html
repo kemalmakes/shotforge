@@ -584,7 +584,7 @@ footer{color:var(--faint);font-size:12px;text-align:center;padding:24px 0 0}
    <p class="hint" data-i="srt_note"></p></div>
   <div class="card"><h3><span data-icon="folder"></span><span data-i="e_proj"></span></h3>
    <button class="btn" id="exSave"><span data-icon="save"></span><span data-i="e_save"></span></button>
-   <label class="btn" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--text);margin:0"><span data-icon="open"></span><span data-i="e_open"></span><input type="file" id="exOpen" accept=".json,application/json" hidden></label>
+   <label class="btn" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--text);margin:0"><span data-icon="open"></span><span data-i="e_open"></span><input type="file" id="exOpen" accept=".shotforge,.json,application/json" hidden></label>
    <button class="btn ghost" id="exNew"><span data-icon="plus"></span><span data-i="e_new"></span></button>
    <p class="hint" data-i="autosave"></p></div>
  </div>
@@ -1537,8 +1537,14 @@ $("#exPrint").addEventListener("click",()=>{if(!need())return;let tt=0;
  $("#printArea").innerHTML=`<h1>${esc(S.title||"Storyboard")}</h1><p style="font-size:9pt;color:#666;margin-bottom:5mm">${S.scenes.length} ${esc(t("scenes"))} · ${S.aspect} · ${esc(styleSuffix())}</p>`+
  S.scenes.map((s,i)=>{const r=`<div class="pscene"><h3>${esc(t("scene"))} ${i+1} · ${fmtT(tt)}–${fmtT(tt+s.dur)} · ${esc(s.shot)} · ${esc(s.camera)}</h3><p>${esc(s.text)}</p><div class="pp">${esc(scenePrompt(s))}</div></div>`;tt+=s.dur;return r}).join("");
  S.done.export=true;save();renderNav();setTimeout(()=>window.print(),100)});
-$("#exSave").addEventListener("click",()=>download(fname("shotforge.json"),JSON.stringify({app:"ShotForge",v:1,project:S},null,1),"application/json"));
-$("#exOpen").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const j=JSON.parse(rd.result);const p=j.project||j;if(!Array.isArray(p.scenes))throw 0;S=mergeAdv(merge(p));save();renderAll();toast(t("opened"))}catch(_){toast(t("not_proj"))}};rd.readAsText(f);e.target.value=""});
+/* project files: "<Title>.shotforge" (JSON inside); old ".json" saves still open */
+const projName=()=>((S.title||"ShotForge project").replace(/[\\/:*?"<>|]+/g,"").replace(/\s+/g," ").trim()||"ShotForge project")+".shotforge";
+$("#exSave").addEventListener("click",()=>download(projName(),JSON.stringify({app:"ShotForge",format:"shotforge-project",v:1,project:S},null,1),"application/x-shotforge"));
+function openProjectText(txt){try{const j=JSON.parse(txt);const p=j.project||j;if(!Array.isArray(p.scenes))throw 0;S=mergeAdv(merge(p));save();renderAll();toast(t("opened"));return true}catch(_){toast(t("not_proj"));return false}}
+$("#exOpen").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>openProjectText(rd.result);rd.readAsText(f);e.target.value=""});
+/* double-click a .shotforge file: installed web app (File Handling API) or the Windows app */
+if("launchQueue" in window)window.launchQueue.setConsumer(async p=>{for(const h of (p.files||[])){try{const f=await h.getFile();openProjectText(await f.text())}catch(e){}}});
+if(window.sfNative&&window.sfNative.onOpenFile)window.sfNative.onOpenFile(txt=>openProjectText(txt));
 $("#exNew").addEventListener("click",async()=>{if(!(await ask(t("new_q"))))return;S=defaultState();save();renderAll();go("script")});
 
 /* ============ TITLE / THEME / LANG ============ */
@@ -1555,7 +1561,7 @@ let th0="dark";try{th0=localStorage.getItem("shotforge.theme")||(matchMedia("(pr
 initGallery();initPlatforms();paintIcons();applyI18n();fetchPricing(false);fetchGallery();fetchPlatforms();
 
 /* ============ PLATFORM: license · updates · install ============ */
-const APP={"version": "1.1.1", "build": 1794607516, "gumroad_product_id": "Z-Mq2NGeBIOWL6mcEDfmgw==", "gumroad_sub_id": "zDilo_txbX3l85VbZ6wuzw==", "buy_url": "https://kemalmakes.gumroad.com/l/shotforge", "buy_url_monthly": "https://kemalmakes.gumroad.com/l/beeoet", "max_devices": 5, "recheck_days": 14, "sub_recheck_days": 3, "sub_grace_days": 40};
+const APP={"version": "1.2.0", "build": 1794608275, "gumroad_product_id": "Z-Mq2NGeBIOWL6mcEDfmgw==", "gumroad_sub_id": "zDilo_txbX3l85VbZ6wuzw==", "buy_url": "https://kemalmakes.gumroad.com/l/shotforge", "buy_url_monthly": "https://kemalmakes.gumroad.com/l/beeoet", "max_devices": 5, "recheck_days": 14, "sub_recheck_days": 3, "sub_grace_days": 40};
 const NATIVE=window.sfNative||null;
 const LICK="shotforge.license";
 const isStandalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true||!!NATIVE;

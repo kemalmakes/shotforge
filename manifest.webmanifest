@@ -18,6 +18,24 @@
   "photo",
   "video"
  ],
+ "file_handlers": [
+  {
+   "action": "./",
+   "accept": {
+    "application/x-shotforge": [
+     ".shotforge"
+    ]
+   },
+   "icons": [
+    {
+     "src": "icons/icon-512.png",
+     "sizes": "512x512",
+     "type": "image/png"
+    }
+   ],
+   "launch_type": "single-client"
+  }
+ ],
  "icons": [
   {
    "src": "icons/icon-192.png",
