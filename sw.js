@@ -1,8 +1,8 @@
 /* ShotForge service worker — offline first, updates in the background */
-const VERSION="1.2.0-50ab10ac571f";
+const VERSION="1.3.0-0b04f59186ff";
 const CACHE="shotforge-"+VERSION;
 const DATA="shotforge-data";
-const FILES=["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
+const FILES=["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "media/tutorial-poster.jpg"];
 self.addEventListener("install",e=>{
   e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>
     fetch(new Request(f,{cache:"reload"})).then(r=>{if(!r.ok)throw new Error(f);return c.put(f,r)})))));
@@ -16,6 +16,7 @@ self.addEventListener("fetch",e=>{
   const u=new URL(r.url);
   if(u.origin===location.origin){
     if(u.pathname.endsWith("/version.json"))return; // always live
+    if(u.pathname.includes("/media/")&&!u.pathname.endsWith(".jpg"))return; // tutorial video streams straight from the network
     e.respondWith(caches.open(CACHE).then(async c=>{
       const hit=await c.match(r,{ignoreSearch:true})||(r.mode==="navigate"?await c.match("./"):null);
       return hit||fetch(r)}));

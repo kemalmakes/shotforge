@@ -1,13 +1,14 @@
 {
- "version": "1.2.0",
- "build": 1794608275,
- "hash": "50ab10ac571f",
+ "version": "1.3.0",
+ "build": 1794661087,
+ "hash": "0b04f59186ff",
  "files": [
   "index.html",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",
   "icons/maskable-512.png",
-  "icons/apple-touch-icon.png"
+  "icons/apple-touch-icon.png",
+  "media/tutorial-poster.jpg"
  ]
 }
