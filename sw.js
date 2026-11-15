@@ -1,5 +1,5 @@
 /* ShotForge service worker — offline first, updates in the background */
-const VERSION="1.4.1-4f0743d5acfa";
+const VERSION="1.5.0-468c52a6684e";
 const CACHE="shotforge-"+VERSION;
 const DATA="shotforge-data";
 const FILES=["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "media/tutorial-poster.jpg"];
