@@ -1,7 +1,7 @@
 {
- "version": "1.3.0",
- "build": 1794661087,
- "hash": "0b04f59186ff",
+ "version": "1.3.1",
+ "build": 1794743294,
+ "hash": "a0a5409fafd0",
  "files": [
   "index.html",
   "manifest.webmanifest",
